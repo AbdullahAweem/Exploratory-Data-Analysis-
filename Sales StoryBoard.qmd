@@ -1,0 +1,84 @@
+---
+title: "Sales Storyboard"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+# Load the dataset
+data <- read.csv("SampleSuperstore.csv")
+```
+
+```{r}
+# Display the first few rows of the dataset
+head(data)
+```
+
+```{r}
+# Check for missing values
+sum(is.na(data))
+```
+
+```{r}
+# Remove unnecessary columns
+data <- data [, c("Ship.Mode", "Segment", "Country", "Region", "City", "Category", "Sub.Category", "Sales", "Quantity", "Discount", "Profit")]
+```
+
+```{r}
+# Check for duplicate rows
+data <- unique(data)
+```
+
+```{r}
+# Check summary statistics
+summary(data)
+```
+
+```{r}
+# Visualize sales by category
+ggplot(data, aes(x = Category, y = Sales, fill = Category)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+# Visualize profit by region
+ggplot(data, aes(x = Region, y = Profit, fill = Region)) +
+  geom_bar(stat = "summary", fun = "mean") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+```{r}
+# Visualize profit vs. discount
+ggplot(data, aes(x = Discount, y = Profit)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue")
+```
+
+```{r}
+# Explore correlations
+correlations <- cor(data[, c("Sales", "Quantity", "Discount", "Profit")])
+print(correlations)
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: true
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
